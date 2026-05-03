@@ -11,10 +11,11 @@ To solve this, I propose a framework to reify the implicit state machine hidden 
 + Deterministic joins for parallel calls into specific named slots instead freely appended on arrival order
 
 > But aren't function calls kind of subroutine-shaped? 
+
 Yeah but for sufficiently complicated logic, realtime orchestration across many function calls acts closer to a coroutine. 
 
 From Dunkels:
- _In practical terms: replace the traditional "call" primitive with a slightly different one. The new "call" will save the return value somewhere other than on the stack, and will then jump to a location specified in another saved return value. So each time the decompressor emits another character, it saves its program counter and jumps to the last known location within the parser - and each time the parser needs another character, it saves its own program counter and jumps to the location saved by the decompressor. Control shuttles back and forth between the two routines exactly as often as necessary._
+> _In practical terms: replace the traditional "call" primitive with a slightly different one. The new "call" will save the return value somewhere other than on the stack, and will then jump to a location specified in another saved return value. So each time the decompressor emits another character, it saves its program counter and jumps to the last known location within the parser - and each time the parser needs another character, it saves its own program counter and jumps to the location saved by the decompressor. Control shuttles back and forth between the two routines exactly as often as necessary._
 
 The problem that I've been running into is that the realtime agent SDKs that I've been working with have been treating both the server and client behavior as a subroutine, but the user experience should semantically be closer to a coroutine. Voice models are temporal whereas my mental model of subroutines are one that involve halting/mutices over resources (in this case prevents the model from advancing until the function call is evaluated). This is made explicit in the way that OpenAI's realtime SDK exposes a weakly structured subroutine. 
 
@@ -46,6 +47,6 @@ sequenceDiagram
     LLM->>Speech: "The inverter is operating normally."
     Speech-->>User: (final response)
 ```
-_Generated using an LLM_
+_Diagram generated using an LLM_
 
 
